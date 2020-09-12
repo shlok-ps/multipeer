@@ -11,6 +11,16 @@ var connections = [];
        // {'urls': 'stun:stun.l.google.com:19302'},
    // ]
 //};
+var peerConnectionConfig ={
+    iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' },
+        {
+            urls: 'turn:3.22.99.77:3478',
+            credential: 'shlokpassword1234',
+            username: 'shlok'
+        }
+    ]
+}
 
 function pageReady() {
 
@@ -44,7 +54,7 @@ function pageReady() {
                     socket.on('user-joined', function(id, count, clients){
                         clients.forEach(function(socketListId) {
                             if(!connections[socketListId]){
-                                connections[socketListId] = new RTCPeerConnection();
+                                connections[socketListId] = new RTCPeerConnection(peerConnectionConfig);
                                 //Wait for their ice candidate       
                                 connections[socketListId].onicecandidate = function(){
                                     if(event.candidate != null) {
